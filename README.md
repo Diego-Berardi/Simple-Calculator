@@ -1,2 +1,2 @@
-# Simple-Calculator
-###link here: 
+# Simple-Calculator 
+simple calculator built with HTML CSS JavaScript
