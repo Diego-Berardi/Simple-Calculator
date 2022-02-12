@@ -22,10 +22,22 @@ const addNumber = (e) => {
 };
 
 const handleOperators = (e) => {
-  div_displayPrev.textContent =
-    div_displayOut.textContent + e.target.textContent;
+  if (
+    div_displayPrev.textContent.includes("+") ||
+    div_displayPrev.textContent.includes("-") ||
+    div_displayPrev.textContent.includes("x") ||
+    div_displayPrev.textContent.includes("÷")
+  ) {
+    console.log("wor");
+    const arr = div_displayPrev.textContent.split("");
+    div_displayPrev.textContent =
+      arr.slice(0, arr.length - 1).join("") + e.target.textContent;
+  } else {
+    div_displayPrev.textContent =
+      div_displayOut.textContent + e.target.textContent;
 
-  div_displayOut.textContent = "0";
+    div_displayOut.textContent = "0";
+  }
 };
 
 const handleEqueal = (e) => {
