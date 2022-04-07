@@ -21,6 +21,22 @@ const addNumber = (e) => {
   div_displayOut.textContent += e.target.textContent;
 };
 
+function calculateResult() {
+  const arrayNum1 = div_displayPrev.textContent.split("");
+  const operatorIndex = arrayNum1.findIndex((elem) => elem < "0" || elem > "9");
+  const operator = arrayNum1[operatorIndex];
+  const num1 = Number(
+    arrayNum1.slice(0, operatorIndex).join("")
+  );
+  const num2 = Number(div_displayOut.textContent);
+
+  console.log(num1, num2, operator);
+  if (operator === "+") return Math.round((num1 + num2) * 100) / 100;
+  if (operator === "-") return Math.round((num1 - num2) * 100) / 100;
+  if (operator === "x") return Math.round(num1 * num2 * 100) / 100;
+  if (operator === "÷") return Math.round((num1 / num2) * 100) / 100;
+}
+
 const handleOperators = (e) => {
   if (
     div_displayPrev.textContent.includes("+") ||
@@ -28,14 +44,18 @@ const handleOperators = (e) => {
     div_displayPrev.textContent.includes("x") ||
     div_displayPrev.textContent.includes("÷")
   ) {
-    console.log("wor");
-    const arr = div_displayPrev.textContent.split("");
-    div_displayPrev.textContent =
-      arr.slice(0, arr.length - 1).join("") + e.target.textContent;
+    if (div_displayOut.textContent !== "0") {
+      div_displayPrev.textContent = calculateResult();
+      div_displayOut.textContent = "0";
+      div_displayPrev.textContent += e.target.textContent;
+    } else {
+      const arr = div_displayPrev.textContent.split("");
+      div_displayPrev.textContent =
+        arr.slice(0, arr.length - 1).join("") + e.target.textContent;
+    }
   } else {
     div_displayPrev.textContent =
       div_displayOut.textContent + e.target.textContent;
-
     div_displayOut.textContent = "0";
   }
 };
@@ -43,23 +63,10 @@ const handleOperators = (e) => {
 const handleEqueal = (e) => {
   if (div_displayPrev.textContent.includes("=")) return;
 
-  const arrayNum1 = div_displayPrev.textContent.split("");
-  const operator = arrayNum1[arrayNum1.length - 1];
-  const num1 = Number(arrayNum1.slice(0, arrayNum1.length - 1).join(""));
-
   div_displayPrev.textContent +=
     div_displayOut.textContent + e.target.textContent;
 
-  const num2 = Number(div_displayOut.textContent);
-
-  if (operator === "+")
-    div_displayOut.textContent = Math.round((num1 + num2) * 100) / 100;
-  if (operator === "-")
-    div_displayOut.textContent = Math.round((num1 - num2) * 100) / 100;
-  if (operator === "x")
-    div_displayOut.textContent = Math.round(num1 * num2 * 100) / 100;
-  if (operator === "÷")
-    div_displayOut.textContent = Math.round((num1 / num2) * 100) / 100;
+  div_displayOut.textContent = calculateResult();
 };
 
 const handleNegative = () => {
